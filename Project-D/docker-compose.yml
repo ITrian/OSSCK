@@ -1,0 +1,41 @@
+
+version: '3.8'
+
+services:
+  # 1. Database Service (PostgreSQL)
+  db_pg:
+    image: postgres:15-alpine
+    container_name: project_d_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: django_user
+      POSTGRES_PASSWORD: django_secret123  # Giá trị an toàn
+      POSTGRES_DB: django_db
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # 2. Backend Service (Python/Django)
+  backend_django:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: project_d_django
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000" # Host 8000 : Container 8000
+    depends_on:
+      - db_pg
+    environment:
+      # Cấu hình kết nối Django
+      DATABASE_HOST: db_pg
+      DATABASE_NAME: \${POSTGRES_DB}
+      DATABASE_USER: \${POSTGRES_USER}
+      DATABASE_PASSWORD: \${POSTGRES_PASSWORD}
+    # Lệnh chạy Django Dev Server (Bắt buộc lắng nghe trên 0.0.0.0)
+    command: sh -c "echo 'Django Backend is Live on 8000!' && tail -f /dev/null"
+
+volumes:
+  pg_data:

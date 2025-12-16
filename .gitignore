@@ -1,0 +1,24 @@
+# Docker data volumes
+Project-A/db_data_a
+Project-D/pg_data
+
+# Ignore sensitive environment files
+Project-A/.env
+Project-D/.env
+
+# Các thư mục thư viện lớn
+Project-A/*/node_modules
+Project-A/vendor/
+Project-D/*/node_modules
+# Docker data volumes
+Project-A/db_data_a
+Project-D/pg_data
+
+# Ignore sensitive environment files
+Project-A/.env
+Project-D/.env
+
+# Các thư mục thư viện lớn
+Project-A/*/node_modules
+Project-A/vendor/
+Project-D/*/node_modules
